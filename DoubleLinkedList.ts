@@ -11,7 +11,9 @@ class Node<T>{
 export class DoubleLinkedList<T>{
     private first: Node<T> | null = null;
     private last: Node<T> | null = null;
-    public size: number = 0;
+    private _size: number = 0;
+
+    public get size(): number { return this._size; }
 
     public appendFirst(value: T): void {
         const newNode = new Node<T>(value);
@@ -23,7 +25,7 @@ export class DoubleLinkedList<T>{
             this.last = newNode;
         }
         this.first = newNode;
-        this.size++;
+        this._size++;
     }
 
     public appendLast(value: T): void {
@@ -36,20 +38,20 @@ export class DoubleLinkedList<T>{
             this.first = newNode;
         }
         this.last = newNode;
-        this.size++;
+        this._size++;
     }
 
     public removeFirst(): void {
         if(this.first){
             this.first = this.first.next;
-            this.size--;
+            this._size--;
         }
     }
 
     public removeLast(): void {
         if(this.last){
             this.last = this.last.prev;
-            this.size--;
+            this._size--;
         }
     }
 
