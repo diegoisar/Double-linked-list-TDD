@@ -112,4 +112,64 @@ describe('DoubleLinkedList', () => {
         expect(getValues2).toEqual([4, 3, 2, 1, 0, 0, 1, 2, 3, 4]);
     })
 
+    test('should be able to remove first properly', () => {
+        list.appendFirst(3);
+        list.appendFirst(4);
+        list.removeFirst();
+        let current = list.getLast();
+        const getValues = [];
+        while(current){
+            getValues.push(current.value);
+            current = current.prev;
+        }
+        expect(getValues).toEqual([3]);
+    })
+
+    test('should be able to remove first properly', () => {
+        list.appendLast(3);
+        list.appendLast(4);
+        list.removeLast();
+        let current = list.getFirst();
+        const getValues = [];
+        while(current){
+            getValues.push(current.value);
+            current = current.next;
+        }
+        expect(getValues).toEqual([3]);
+    })
+
+    test('should forgive chaging values in node', () => {
+        list.appendLast(3);
+        list.appendLast(4);
+        const first = list.getFirst()
+        if(first){
+            first.next = null
+        }
+        let current = list.getFirst();
+        const getValues = [];
+        while(current){
+            getValues.push(current.value);
+            current = current.next;
+        }
+        expect(getValues).toEqual([3, 4]);
+    })
+    test('should forgive chaging values in node', () => {
+        list.appendLast(3);
+        list.appendLast(4);
+        let first = list.getFirst()
+        list.removeFirst()
+       
+
+        //expect to throw exception
+        //expect(first).toEqual();
+    })
+
+    test.todo('should be able to insert a value given index')
+
+    test.todo('should be able to remove a value given index')
+
+    test.todo('should be able to concat 2 double list')
+
+    test.todo('should be able to cut a double list given a index')
+
 })
