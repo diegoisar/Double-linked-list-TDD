@@ -1,16 +1,25 @@
 class Node<T> {
     public value: T
-    public next: Node<T> | null = null
-    public prev: Node<T> | null = null
+    public next?: Node<T>
+    public prev?: Node<T>
 
     constructor(value: T) {
         this.value = value
     }
+
+    public delete(): void {
+        if (this.prev) {
+            this.prev.next = this.next
+        }
+        if (this.next) {
+            this.next.prev = this.prev
+        }
+    }
 }
 
 export class DoubleLinkedList<T> {
-    private first: Node<T> | null = null
-    private last: Node<T> | null = null
+    private first?: Node<T>
+    private last?: Node<T>
     private _size: number = 0
 
     public get size(): number {
@@ -44,9 +53,11 @@ export class DoubleLinkedList<T> {
     public removeFirst(): void {
         if (this.first) {
             if (this.first.next) {
-                this.first.next.prev = null
+                this.first.next.prev = undefined
             }
-            this.first = this.first.next
+            const next = this.first.next
+            this.first.delete()
+            this.first = next
             this._size--
         }
     }
@@ -54,18 +65,20 @@ export class DoubleLinkedList<T> {
     public removeLast(): void {
         if (this.last) {
             if (this.last.prev) {
-                this.last.prev.next = null
+                this.last.prev.next = undefined
             }
-            this.last = this.last.prev
+            const prev = this.last.prev
+            this.last.delete()
+            this.last = prev
             this._size--
         }
     }
 
-    public getFirst(): Readonly<Node<T>> | null {
+    public getFirst(): Readonly<Node<T>> | undefined {
         return this.first
     }
 
-    public getLast(): Readonly<Node<T>> | null {
+    public getLast(): Readonly<Node<T>> | undefined {
         return this.last
     }
 
@@ -121,12 +134,7 @@ export class DoubleLinkedList<T> {
         if (!node) {
             return
         }
-        if (node.prev) {
-            node.prev.next = node.next
-        }
-        if (node.next) {
-            node.next.prev = node.prev
-        }
+        node.delete()
         this._size--
     }
 
@@ -144,9 +152,9 @@ export class DoubleLinkedList<T> {
         newList.first = node
         newList.last = this.last
         this.last = node.prev
-        node.prev = null
+        node.prev = undefined
         if (this.last) {
-            this.last.next = null
+            this.last.next = undefined
         }
         this._size -= count
         newList._size = count
@@ -169,6 +177,4 @@ export class DoubleLinkedList<T> {
         this.last = list.last
         this._size += list.size
     }
-
-    // const {first, last} = list.split(stop: 2, start: 1)
 }
