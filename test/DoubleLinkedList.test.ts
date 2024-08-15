@@ -154,15 +154,15 @@ describe('DoubleLinkedList', () => {
         // }
         // expect(getValues).toEqual([3, 4]);
     })
-    test('should forgive use a node that has been removed from array', () => {
+    test('should forbid use a node that has been removed from array', () => {
         list.appendLast(3)
         list.appendLast(4)
         let first = list.getFirst()
         list.removeFirst()
-        expect(first).toBeNull()
-
-        //expect to throw exception
-        //expect(first).toEqual();
+        //expect to throw exception when getting value
+        expect(() => {
+            first?.value
+        }).toThrow('Node has been deleted')
     })
 
     test('should be able to insert a value given index', () => {

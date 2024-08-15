@@ -1,19 +1,67 @@
 class Node<T> {
-    public value: T
-    public next?: Node<T>
-    public prev?: Node<T>
+    private isDeleted: boolean = false
 
     constructor(value: T) {
-        this.value = value
+        this._value = value
+        this.isDeleted = false
+    }
+
+    private _value: T
+
+    public get value(): T {
+        if (this.isDeleted) {
+            throw new Error('Node has been deleted')
+        }
+        return this._value
+    }
+
+    public set value(value: T) {
+        if (this.isDeleted) {
+            throw new Error('Node has been deleted')
+        }
+        this._value = value
+    }
+
+    protected _next?: Node<T>
+
+    public get next(): Node<T> | undefined {
+        if (this.isDeleted) {
+            throw new Error('Node has been deleted')
+        }
+        return this._next
+    }
+
+    public set next(node: Node<T> | undefined) {
+        if (this.isDeleted) {
+            throw new Error('Node has been deleted')
+        }
+        this._next = node
+    }
+
+    protected _prev?: Node<T>
+
+    public get prev(): Node<T> | undefined {
+        if (this.isDeleted) {
+            throw new Error('Node has been deleted')
+        }
+        return this._prev
+    }
+
+    public set prev(node: Node<T> | undefined) {
+        if (this.isDeleted) {
+            throw new Error('Node has been deleted')
+        }
+        this._prev = node
     }
 
     public delete(): void {
-        if (this.prev) {
-            this.prev.next = this.next
+        if (this._prev) {
+            this._prev._next = this.next
         }
-        if (this.next) {
-            this.next.prev = this.prev
+        if (this._next) {
+            this._next._prev = this.prev
         }
+        this.isDeleted = true
     }
 }
 
