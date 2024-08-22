@@ -107,6 +107,9 @@ export class DoubleLinkedList<T> {
             this.first.delete()
             this.first = next
             this._size--
+            if (this._size === 0) {
+                this.last = undefined
+            }
         }
     }
 
@@ -119,6 +122,9 @@ export class DoubleLinkedList<T> {
             this.last.delete()
             this.last = prev
             this._size--
+            if (this._size === 0) {
+                this.first = undefined
+            }
         }
     }
 
@@ -130,7 +136,7 @@ export class DoubleLinkedList<T> {
         return this.last
     }
 
-    public insert(index: number, value: T): void {
+    public insertAt(index: number, value: T): void {
         if (index < 0 || index > this._size) {
             throw new Error('Index out of bounds')
         }
@@ -161,7 +167,7 @@ export class DoubleLinkedList<T> {
         this._size++
     }
 
-    public remove(index: number): void {
+    public removeAt(index: number): void {
         if (index < 0 || index >= this._size) {
             throw new Error('Index out of bounds')
         }

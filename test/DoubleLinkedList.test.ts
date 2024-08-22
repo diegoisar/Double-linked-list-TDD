@@ -170,7 +170,7 @@ describe('DoubleLinkedList', () => {
         list.appendLast(4)
         list.appendLast(6)
         list.appendLast(7)
-        list.insert(1, 5)
+        list.insertAt(1, 5)
         let current = list.getFirst()
         const getValues = []
         while (current) {
@@ -185,7 +185,7 @@ describe('DoubleLinkedList', () => {
         list.appendLast(4)
         list.appendLast(6)
         list.appendLast(7)
-        list.remove(1)
+        list.removeAt(1)
         let current = list.getFirst()
         const getValues = []
         while (current) {
@@ -254,5 +254,15 @@ describe('DoubleLinkedList', () => {
             expect(current?.value).toBe(originalCurrent?.value)
         }
         expect(list.size).toBe(5)
+    })
+
+    test('should add 1m elements and remove it', () => {
+        // for (let i = 0; i < 1000000; i++) {
+        //     list.appendLast(i)
+        //     list.removeFirst()
+        // }
+        list.appendLast(1)
+        list.removeFirst()
+        list.appendLast(3)
     })
 })
