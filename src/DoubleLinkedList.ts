@@ -56,9 +56,11 @@ class Node<T> {
 
     public delete(): void {
         if (this._prev) {
+            delete this._prev._next
             this._prev._next = this.next
         }
         if (this._next) {
+            delete this._next._prev
             this._next._prev = this.prev
         }
         this.isDeleted = true
@@ -105,6 +107,7 @@ export class DoubleLinkedList<T> {
             }
             const next = this.first.next
             this.first.delete()
+            delete this.first
             this.first = next
             this._size--
             if (this._size === 0) {
@@ -120,6 +123,7 @@ export class DoubleLinkedList<T> {
             }
             const prev = this.last.prev
             this.last.delete()
+            delete this.last
             this.last = prev
             this._size--
             if (this._size === 0) {
@@ -189,10 +193,14 @@ export class DoubleLinkedList<T> {
             return
         }
         node.delete()
+
         this._size--
     }
 
     public split(index: number): DoubleLinkedList<T> {
+        if (index < 0 || index >= this._size) {
+            throw new Error('Index out of bounds')
+        }
         let node = this.first
         let count = 0
         while (node && count < index) {

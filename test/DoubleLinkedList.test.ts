@@ -265,4 +265,42 @@ describe('DoubleLinkedList', () => {
         list.removeFirst()
         list.appendLast(3)
     })
+    test('should concat void list', () => {
+        const originalSize = list.size
+        let list2 = new DoubleLinkedList<number>()
+        list.concat(list2)
+        expect(list.size).toBe(originalSize)
+    })
+
+    test('should concat void list 2', () => {
+        const originalSize = list.size
+        let list2 = new DoubleLinkedList<number>()
+        list2.concat(list)
+        expect(list2.size).toBe(originalSize)
+    })
+
+    test('avoid split void list', () => {
+        expect(() => {
+            list.split(0)
+        }).toThrow('Index out of bounds')
+    })
+
+    test('should split test 2', () => {
+        let list2 = new DoubleLinkedList<number>()
+
+        list.appendLast(1)
+        list.appendLast(2)
+        list.appendLast(3)
+
+        list2 = list.split(0)
+        expect(list2.size).toBe(0)
+
+        expect(() => {
+            list.split(list.size)
+        }).toThrow('Index out of bounds')
+
+        const size2 = list.size
+        list2 = list.split(list.size - 1)
+        expect(list2.size).toBe(size2 - 1)
+    })
 })
